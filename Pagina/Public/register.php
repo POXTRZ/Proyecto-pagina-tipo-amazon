@@ -1,5 +1,8 @@
 <?php
-include 'db.php';
+
+include __DIR__ . '/../Config/db.php';
+
+
 
 $success_msg = [];
 $error_msg = [];
