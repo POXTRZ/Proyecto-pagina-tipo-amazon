@@ -107,3 +107,4 @@ INSERT INTO productos (nombre, descripcion, precio, imagen, stock) VALUES
 ('Shaker Verde 500ml', 'Shaker Verde 500ml de alta calidad para mejorar tu rendimiento y resultados en el entrenamiento. Diseño compacto y fácil de transportar.', 522.07, 'images/product_98.jpg', 30),
 ('Creatina Monohidrato 1000g', 'Creatina Monohidrato 1000g de alta calidad para mejorar tu rendimiento y resultados en el entrenamiento. Aumenta la fuerza y el volumen muscular.', 537.88, 'images/product_99.jpg', 25),
 ('Pre-Entreno Xplode', 'Pre-Entreno Xplode de alta calidad para mejorar tu rendimiento y resultados en el entrenamiento. Fórmula explosiva para máxima energía y enfoque.', 1113.33, 'images/product_100.jpg', 18);
+

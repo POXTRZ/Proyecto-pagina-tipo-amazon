@@ -101,3 +101,6 @@ CREATE INDEX idx_ordenes_usuario ON ordenes(id_usuario);
 CREATE INDEX idx_ordenes_fecha ON ordenes(fecha_orden);
 CREATE INDEX idx_resenas_producto ON resenas(id_producto);
 
+
+
+
