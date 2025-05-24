@@ -7,3 +7,9 @@ Les queria comentar, para la base de datos como aun no descubro como hostearla s
 
 En caso de que ustedes tambien modifiquen o cambien la base, pls pongan el codigo que utilizaron ahi 😭🙏
 
+Para que puedan insertar correctamente la base de datos a su phpMyadmin 
+Tienen que copear y pegar los archivos en este orden:
+    -crear_tablas
+    -productos_mxn
+    -categorias
+
