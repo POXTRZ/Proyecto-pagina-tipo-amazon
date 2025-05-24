@@ -1,39 +1,73 @@
 <?php
+include __DIR__ . '/../Config/db.php'; // Ruta al archivo de conexión
 
-include __DIR__ . '/../Config/db.php';
-
-
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 $success_msg = [];
 $error_msg = [];
+$formData = [
+    'nombre_usuario' => '',
+    'correo' => '',
+    'telefono' => '',
+    'direccion' => ''
+];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $confirmar = $_POST["confirmar"];
+    $formData["nombre_usuario"] = trim($_POST["nombre_usuario"] ?? '');
+    $formData["correo"] = trim($_POST["correo"] ?? '');
+    $formData["telefono"] = trim($_POST["telefono"] ?? '');
+    $formData["direccion"] = trim($_POST["direccion"] ?? '');
+
+    $username  = $formData["nombre_usuario"];
+    $email     = $formData["correo"];
+    $password  = $_POST["contrasena"] ?? '';
+    $confirm   = $_POST["confirmar"] ?? '';
+    $telefono  = $formData["telefono"];
+    $direccion = $formData["direccion"];
+
+    // Validaciones básicas
+    if (empty($username) || strlen($username) < 3) {
+        $error_msg[] = "El nombre de usuario debe tener al menos 3 caracteres.";
+    }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_msg[] = "Correo electrónico no válido.";
-    } elseif (strlen($password) < 8) {
+    }
+
+    if (strlen($password) < 8) {
         $error_msg[] = "La contraseña debe tener al menos 8 caracteres.";
-    } elseif ($password !== $confirmar) {
+    }
+
+    if ($password !== $confirm) {
         $error_msg[] = "Las contraseñas no coinciden.";
-    } else {
+    }
+
+    if (!empty($telefono) && !preg_match('/^[0-9\-\+\s]+$/', $telefono)) {
+        $error_msg[] = "El teléfono solo puede contener números, espacios o guiones.";
+    }
+
+    // Si no hay errores, insertar en la base de datos
+    if (empty($error_msg)) {
         try {
-            // Verificar si ya existe el correo
-            $stmt = $conn->prepare("SELECT * FROM usuarios WHERE correo = ?");
-            $stmt->execute([$email]);
+            $stmt = $conn->prepare("SELECT id FROM usuarios WHERE nombre_usuario = ? OR correo = ?");
+            $stmt->execute([$username, $email]);
 
             if ($stmt->rowCount() > 0) {
-                $error_msg[] = "Ese correo ya está registrado.";
+                $error_msg[] = "El nombre de usuario o correo ya están registrados.";
             } else {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
-                $nombre_usuario = explode('@', $email)[0] . rand(1000, 9999);
+                $insert = $conn->prepare("INSERT INTO usuarios (nombre_usuario, correo, contrasena, telefono, direccion)
+                                          VALUES (?, ?, ?, ?, ?)");
+                $insert->execute([$username, $email, $hash, $telefono, $direccion]);
 
-                $insertar = $conn->prepare("INSERT INTO usuarios (nombre_usuario, correo, contrasena) VALUES (?, ?, ?)");
-                $insertar->execute([$nombre_usuario, $email, $hash]);
-
-                $success_msg[] = "Registro exitoso. ¡Bienvenido!";
+                $success_msg[] = "¡Registro exitoso, $username!";
+                $formData = [
+                    'nombre_usuario' => '',
+                    'correo' => '',
+                    'telefono' => '',
+                    'direccion' => ''
+                ];
             }
         } catch (PDOException $e) {
             $error_msg[] = "Error al registrar: " . $e->getMessage();
@@ -43,56 +77,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Crear cuenta - CHOCHOS.COM</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
+    <title>Registro</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 
-<div class="principal">
-    <section>
-        <div class="Formulario" id="login">
-            <form action="" method="post">
-                <h1>Crear Cuenta</h1>
+<form action="" method="post">
+  <h1>Registro</h1>
 
-                <div class="input">
-                    <label>Email<sup>*</sup></label><br>
-                    <input type="email" name="email" required placeholder="Correo electrónico">
-                </div><br>
+  <div class="input">
+    <label>Nombre de usuario<sup>*</sup></label>
+    <input type="text" name="nombre_usuario" required placeholder="Nombre de usuario"
+           value="<?= htmlspecialchars($formData["nombre_usuario"]) ?>">
+  </div>
 
-                <div class="input">
-                    <label>Contraseña<sup>*</sup></label><br>
-                    <input type="password" name="password" required placeholder="Contraseña">
-                </div><br>
+  <div class="input">
+    <label>Email<sup>*</sup></label>
+    <input type="email" name="correo" required placeholder="Correo electrónico"
+           value="<?= htmlspecialchars($formData["correo"]) ?>">
+  </div>
 
-                <div class="input">
-                    <label>Confirmar Contraseña<sup>*</sup></label><br>
-                    <input type="password" name="confirmar" required placeholder="Confirmar contraseña">
-                </div><br>
+  <div class="input">
+    <label>Contraseña<sup>*</sup></label>
+    <input type="password" name="contrasena" required placeholder="Contraseña">
+  </div>
 
-                <button type="submit">Crear cuenta</button>
-                <p>¿Ya tienes una cuenta? <a href="login.php">Iniciar sesión</a></p>
-            </form>
-        </div>
-    </section>
-</div>
+  <div class="input">
+    <label>Confirmar Contraseña<sup>*</sup></label>
+    <input type="password" name="confirmar" required placeholder="Repite la contraseña">
+  </div>
+
+  <div class="input">
+    <label>Teléfono</label>
+    <input type="text" name="telefono" placeholder="Opcional"
+           value="<?= htmlspecialchars($formData["telefono"]) ?>">
+  </div>
+
+  <div class="input">
+    <label>Dirección</label>
+    <input type="text" name="direccion" placeholder="Opcional"
+           value="<?= htmlspecialchars($formData["direccion"]) ?>">
+  </div>
+
+  <button type="submit">Registrar</button>
+</form>
 
 <?php
-if (!empty($success_msg)) {
-    foreach ($success_msg as $msg) {
-        echo "<script>swal('¡Éxito!', '".htmlspecialchars($msg)."', 'success');</script>";
-    }
+foreach ($success_msg as $msg) {
+    echo "<script>swal('¡Éxito!', '".addslashes($msg)."', 'success');</script>";
 }
-
-if (!empty($error_msg)) {
-    foreach ($error_msg as $msg) {
-        echo "<script>swal('Error', '".htmlspecialchars($msg)."', 'error');</script>";
-    }
+foreach ($error_msg as $msg) {
+    echo "<script>swal('Error', '".addslashes($msg)."', 'error');</script>";
 }
 ?>
 
