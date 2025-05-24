@@ -47,7 +47,7 @@ $cantidadCarrito = obtenerCantidadCarrito();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitStore - Tu Tienda de Suplementos Deportivos</title>
-    <link rel="stylesheet" href="../Css/styles.css">
+    <link rel="stylesheet" href="/Pagina/Css/index.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -116,7 +116,7 @@ $cantidadCarrito = obtenerCantidadCarrito();
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Potencia Tu Entrenamiento</h1>
+            <h1 class="glitch-effect" data-text="Potencia Tu Entrenamiento">Potencia Tu Entrenamiento</h1>
             <p>Los mejores suplementos deportivos para alcanzar tus metas fitness</p>
             <a href="#productos-destacados" class="cta-button">Ver Productos</a>
         </div>
@@ -389,6 +389,12 @@ $cantidadCarrito = obtenerCantidadCarrito();
                 notification.remove();
             }, 3000);
         }
+
+        // Efecto de glitch en el título
+        const glitchText = document.querySelector('.glitch-effect');
+        
     </script>
 </body>
 </html>
+
+
