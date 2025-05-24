@@ -12,7 +12,6 @@ INSERT INTO productos (nombre, descripcion, precio, imagen, stock) VALUES
 ('MK-2866 Xtreme', 'MK-2866 Xtreme versión potenciada de Ostarine para mejorar tu rendimiento y resultados en el entrenamiento.', 574.09, 'images/special_8.jpg', 8),
 ('Testo Blast', 'Testo Blast booster extremo de testosterona de alta calidad para mejorar tu rendimiento y resultados.', 1289.45, 'images/special_9.jpg', 10),
 ('MK-677 Ultra', 'MK-677 Ultra fórmula premium para mejorar tu rendimiento y resultados en el entrenamiento. Máxima potencia.', 599.42, 'images/special_10.jpg', 14),
-
 ('Creatina Monohidrato 500g', 'Creatina Monohidrato pura 500g de alta calidad para aumentar fuerza, potencia y volumen muscular durante el entrenamiento.', 1543.26, 'images/product_11.jpg', 45),
 ('Whey Protein Banana', 'Whey Protein sabor Banana de alta calidad, 25g de proteína por porción para recuperación muscular post-entreno.', 534.99, 'images/product_12.jpg', 35),
 ('Shaker Verde 700ml', 'Shaker Verde de 700ml libre de BPA, con rejilla mezcladora para preparar tus batidos perfectos.', 808.35, 'images/product_13.jpg', 50),
@@ -22,11 +21,7 @@ INSERT INTO productos (nombre, descripcion, precio, imagen, stock) VALUES
 ('EAA 2000g', 'Aminoácidos Esenciales EAA 2000g, los 9 aminoácidos que tu cuerpo no puede producir naturalmente.', 1111.46, 'images/product_17.jpg', 20),
 ('Energy Blast Ultra', 'Energy Blast Ultra pre-entreno con fórmula avanzada de estimulantes y nootrópicos para máximo rendimiento.', 1095.31, 'images/product_18.jpg', 18),
 ('Casein Banana', 'Proteína Caseína sabor Banana de absorción lenta, ideal para tomar antes de dormir y mantener anabolismo.', 653.14, 'images/product_19.jpg', 22),
-('Vegan Protein Banana', 'Proteína Vegana sabor Banana a base de guisante y arroz, libre de lactosa y gluten, 24g proteína.', 1244.4, 'images/product_20.jpg', 16);
-
--- Continuar con más productos (reduciendo para brevedad)...
--- Los demás productos mantienen el mismo formato pero con descripciones mejoradas y stock asignado
-
+('Vegan Protein Banana', 'Proteína Vegana sabor Banana a base de guisante y arroz, libre de lactosa y gluten, 24g proteína.', 1244.4, 'images/product_20.jpg', 16),
 ('Pre-Entreno Force', 'Pre-Entreno Force de alta calidad para mejorar tu rendimiento y resultados en el entrenamiento. Con ingredientes avanzados para máxima energía.', 1281.97, 'images/product_21.jpg', 18),
 ('Creatina Kre-Alkalyn 500g', 'Creatina Kre-Alkalyn 500g de alta calidad para mejorar tu rendimiento y resultados en el entrenamiento. Fórmula bufferizada para mejor absorción.', 1115.88, 'images/product_22.jpg', 25),
 ('Vegan Protein Fresa', 'Vegan Protein Fresa de alta calidad para mejorar tu rendimiento y resultados en el entrenamiento. Proteína vegetal con aminoácidos esenciales.', 758.37, 'images/product_23.jpg', 20),
