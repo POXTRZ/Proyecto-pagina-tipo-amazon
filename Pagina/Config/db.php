@@ -28,8 +28,4 @@ if ($mysqli->connect_error) {
 
 $mysqli->set_charset("utf8");
 
-
-echo "✅ Conexión exitosa a la base de datos";
-// Puedes usar $pdo o $mysqli según lo que necesites
-// Cerrar la conexión al final (opcional, ya que PHP lo hace automáticamente al finalizar el script)
 ?>
