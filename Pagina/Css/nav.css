@@ -1,0 +1,391 @@
+/* Variables para mantener consistencia */
+:root {
+  --black: #0a0a0a;
+  --dark-gray: #1a1a1a;
+  --medium-gray: #6c6c6c;
+  --light-gray: #a8a8a8;
+  --white: #f0f0f0;
+  --accent: #3a3a3a;
+  --gradient-card: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --border-radius: 16px;
+  --border-radius-small: 8px;
+  --shadow-light: rgba(255, 255, 255, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+}
+
+/* Reset y configuración base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Navegación principal */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 5%;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 1000;
+}
+
+/* Ajuste para el menú de navegación */
+.nav-links {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Efecto al hacer scroll */
+nav.scrolled {
+  background: rgba(10, 10, 10, 0.98);
+  box-shadow: 0 8px 32px var(--shadow-dark);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Logo */
+.logo {
+  height: 45px;
+  width: auto;
+  transition: var(--transition);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  border-radius: var(--border-radius-small);
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+/* Enlaces de navegación */
+nav > a {
+  color: var(--light-gray);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--border-radius-small);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+/* Efecto de fondo sutil en enlaces */
+nav > a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transition: var(--transition);
+}
+
+nav > a:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+nav > a:hover::before {
+  left: 100%;
+}
+
+/* Contenedor del dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+}
+
+/* Enlace principal del dropdown */
+.dropdown > a {
+  color: var(--light-gray);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--border-radius-small);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+.dropdown > a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transition: var(--transition);
+}
+
+.dropdown > a:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown > a:hover::before {
+  left: 100%;
+}
+
+/* Icono del dropdown */
+.dropdown i {
+  font-size: 0.8rem;
+  transition: var(--transition);
+}
+
+.dropdown:hover i {
+  transform: rotate(180deg);
+  color: var(--white);
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  margin-top: 0.5rem;
+}
+
+/* Mostrar menú al hacer hover */
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Enlaces dentro del dropdown */
+.dropdown-menu a {
+  display: block;
+  color: var(--light-gray);
+  text-decoration: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: var(--transition);
+  position: relative;
+  border-left: 3px solid transparent;
+}
+
+.dropdown-menu a::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 0;
+  background: var(--light-gray);
+  transition: height 0.2s ease;
+  border-radius: 2px;
+}
+
+.dropdown-menu a:hover::before {
+  height: 60%;
+}
+
+.dropdown-menu a:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  border-left-color: var(--light-gray);
+  padding-left: 2rem;
+}
+
+/* Separador sutil entre elementos del dropdown */
+.dropdown-menu a:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Animación de entrada para el dropdown */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.dropdown:hover .dropdown-menu {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Controles de usuario alineados */
+.user-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.user-controls a, 
+.user-controls span {
+  padding: 0.8rem 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  nav {
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 3%;
+  }
+  
+  nav > a, .dropdown > a {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+    border-radius: 0;
+  }
+  
+  .logo {
+    height: 40px;
+    margin-bottom: 0.5rem;
+  }
+  
+  nav > a, .dropdown > a {
+    padding: 0.8rem 1rem;
+    width: 100%;
+    text-align: center;
+    border-radius: var(--border-radius-small);
+  }
+  
+  .dropdown-menu {
+    position: static;
+    transform: none;
+    margin-top: 0.5rem;
+    width: 100%;
+    box-shadow: none;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    transform: none;
+  }
+  
+  /* En móvil, mostrar/ocultar con JavaScript sería mejor */
+  .dropdown-menu {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    transition: max-height 0.3s ease-out;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  nav {
+    padding: 0.8rem;
+  }
+  
+  nav > a, .dropdown > a {
+    font-size: 0.85rem;
+    padding: 0.7rem 0.8rem;
+  }
+  
+  .dropdown-menu a {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Efectos adicionales para mejor experiencia */
+nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.01) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Indicador activo (si quieres marcar la página actual) */
+nav > a.active,
+.dropdown > a.active {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav > a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--white), transparent);
+  border-radius: 1px;
+}
+
+.nav-links .active-link a {
+  color: var(--white);
+}
+
+.nav-links .active-link a::before {
+  width: 70%;
+}
