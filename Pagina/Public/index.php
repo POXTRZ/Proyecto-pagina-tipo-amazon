@@ -96,10 +96,16 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                         <div class="product-price">\$<?=number_format($p['precio'],2)?></div>
                         <div class="product-actions">
                             <?php if ($p['stock'] > 0): ?>
-                                <form action="agregar_carrito.php" method="post">
-                                    <input type="hidden" name="producto_id" value="<?= $p['id'] ?>">
-                                    <button type="submit" class="add-to-cart"><i class="fas fa-cart-plus"></i> Agregar al Carrito</button>
-                                </form>
+                                <?php if ($logged): ?>
+                                    <form action="agregar_carrito.php" method="post">
+                                        <input type="hidden" name="producto_id" value="<?= $p['id'] ?>">
+                                        <button type="submit" class="add-to-cart"><i class="fas fa-cart-plus"></i> Agregar al Carrito</button>
+                                    </form>
+                                <?php else: ?>
+                                    <form action="login.php" method="get">
+                                        <button type="submit" class="add-to-cart"><i class="fas fa-cart-plus"></i> Agregar al Carrito</button>
+                                    </form>
+                                <?php endif; ?>
                             <?php else: ?>
                                 <button type="button" class="add-to-cart btn-disabled" disabled>Agotado</button>
                             <?php endif; ?>
@@ -131,10 +137,16 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                         <div class="product-price">\$<?=number_format($o['precio'],2)?></div>
                         <div class="product-actions">
                             <?php if ($o['stock'] > 0): ?>
-                                <form action="agregar_carrito.php" method="post">
-                                    <input type="hidden" name="producto_id" value="<?= $o['id'] ?>">
-                                    <button type="submit" class="add-to-cart"><i class="fas fa-cart-plus"></i> ¡Aprovechar!</button>
-                                </form>
+                                <?php if ($logged): ?>
+                                    <form action="agregar_carrito.php" method="post">
+                                        <input type="hidden" name="producto_id" value="<?= $o['id'] ?>">
+                                        <button type="submit" class="add-to-cart"><i class="fas fa-cart-plus"></i> ¡Aprovechar!</button>
+                                    </form>
+                                <?php else: ?>
+                                    <form action="login.php" method="get">
+                                        <button type="submit" class="add-to-cart"><i class="fas fa-cart-plus"></i> ¡Aprovechar!</button>
+                                    </form>
+                                <?php endif; ?>
                             <?php else: ?>
                                 <button type="button" class="add-to-cart btn-disabled" disabled>Agotado</button>
                             <?php endif; ?>
@@ -151,10 +163,10 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
             <div class="footer-logo"><i class="fas fa-dumbbell"></i> FitStore Pro</div>
             <p class="footer-text">Tu tienda de confianza para suplementos deportivos de alta calidad. Enfócate en tu entrenamiento, nosotros nos encargamos del resto.</p>
             <div class="social-links">
-                <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+    <a href="https://www.facebook.com/search/top?q=facultad%20de%20inform%C3%A1tica%20-%20uaq" class="social-link" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.instagram.com/informaticauaq/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://x.com/InformaticaUAQ" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.youtube.com/@fifuaq" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
             </div>
             <div class="footer-divider"></div>
             <p class="copyright">&copy; <?= date("Y") ?> FitStore Pro. Todos los derechos reservados.</p>
