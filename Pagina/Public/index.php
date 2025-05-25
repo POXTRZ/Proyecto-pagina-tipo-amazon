@@ -38,7 +38,6 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
 </head>
 <body>
     <header class="header">
-        <!-- Solo incluimos nav.php - No más navegación duplicada -->
         <?php include '../Includes/nav.php'; ?>
     </header>
 
@@ -56,7 +55,6 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
             <h2 class="section-title">Categorías Principales</h2>
             <div class="categories-grid">
                 <?php
-                // Íconos para cada categoría (puedes personalizarlos según las categorías reales)
                 $icons = [
                     '<i class="fas fa-dumbbell"></i>', 
                     '<i class="fas fa-bolt"></i>', 
@@ -74,10 +72,7 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                     <p>Productos de la más alta calidad para tu rendimiento</p>
                     <a href="categoria.php?id=<?=$c['id']?>" class="cta-button" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Ver Productos</a>
                 </div>
-                <?php
-                $i++;
-                endforeach; 
-                ?>
+                <?php $i++; endforeach; ?>
             </div>
         </div>
     </section>
@@ -98,17 +93,15 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                     </div>
                     <div class="product-info">
                         <h3 class="product-title"><?=htmlspecialchars($p['nombre'])?></h3>
-                        <div class="product-price">$<?=number_format($p['precio'],2)?></div>
+                        <div class="product-price">\$<?=number_format($p['precio'],2)?></div>
                         <div class="product-actions">
-                            <?php if ($logged && $p['stock'] > 0): ?>
+                            <?php if ($p['stock'] > 0): ?>
                                 <form action="agregar_carrito.php" method="post">
-                                    <input type="hidden" name="producto_id" value="<?=$p['id']?>
+                                    <input type="hidden" name="producto_id" value="<?= $p['id'] ?>">
                                     <button type="submit" class="add-to-cart"><i class="fas fa-cart-plus"></i> Agregar al Carrito</button>
                                 </form>
-                            <?php elseif ($p['stock'] == 0): ?>
+                            <?php else: ?>
                                 <button type="button" class="add-to-cart btn-disabled" disabled>Agotado</button>
-                            <?php elseif (!$logged): ?>
-                                <a href="login.php" class="add-to-cart" style="display: block; text-align: center; text-decoration: none;">Inicia sesión para comprar</a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -135,17 +128,15 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                     </div>
                     <div class="product-info">
                         <h3 class="product-title"><?=htmlspecialchars($o['nombre'])?></h3>
-                        <div class="product-price">$<?=number_format($o['precio'],2)?></div>
+                        <div class="product-price">\$<?=number_format($o['precio'],2)?></div>
                         <div class="product-actions">
-                            <?php if ($logged && $o['stock'] > 0): ?>
+                            <?php if ($o['stock'] > 0): ?>
                                 <form action="agregar_carrito.php" method="post">
-                                    <input type="hidden" name="producto_id" value="<?=$o['id']?>
+                                    <input type="hidden" name="producto_id" value="<?= $o['id'] ?>">
                                     <button type="submit" class="add-to-cart"><i class="fas fa-cart-plus"></i> ¡Aprovechar!</button>
                                 </form>
-                            <?php elseif ($o['stock'] == 0): ?>
+                            <?php else: ?>
                                 <button type="button" class="add-to-cart btn-disabled" disabled>Agotado</button>
-                            <?php elseif (!$logged): ?>
-                                <a href="login.php" class="add-to-cart" style="display: block; text-align: center; text-decoration: none;">Inicia sesión para comprar</a>
                             <?php endif; ?>
                         </div>
                     </div>
