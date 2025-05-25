@@ -1,74 +1,56 @@
 <?php
 session_start();
-require_once '../Config/db.php';
+include __DIR__ . '/../Config/db.php';
 
-header('Content-Type: application/json');
+$id_producto = isset($_POST['id_producto']) ? intval($_POST['id_producto']) : 0;
+$cantidad = isset($_POST['cantidad']) ? max(1, intval($_POST['cantidad'])) : 1; // No permitir negativos
 
-// Validar que el usuario esté logueado
+if ($id_producto <= 0) {
+    die("Producto inválido.");
+}
+
+// Obtener precio del producto
+$stmt = $conn->prepare("SELECT nombre, precio FROM productos WHERE id = ?");
+$stmt->execute([$id_producto]);
+$producto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$producto || $producto['precio'] < 0) {
+    die("Producto no encontrado o precio inválido.");
+}
+
 if (!isset($_SESSION['usuario_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Debes iniciar sesión.']);
-    exit;
+    // Carrito temporal
+    if (!isset($_SESSION['carrito_temporal'])) {
+        $_SESSION['carrito_temporal'] = [];
+    }
+
+    if (isset($_SESSION['carrito_temporal'][$id_producto])) {
+        $_SESSION['carrito_temporal'][$id_producto]['cantidad'] += $cantidad;
+    } else {
+        $_SESSION['carrito_temporal'][$id_producto] = [
+            'nombre' => $producto['nombre'],
+            'precio' => $producto['precio'],
+            'cantidad' => $cantidad
+        ];
+    }
+
+    header("Location: carrito.php");
+    exit();
 }
 
+// Si está logeado, guardar en la base de datos
 $id_usuario = $_SESSION['usuario_id'];
-$id_producto = $_POST['producto_id'] ?? null;
-$cantidad = $_POST['cantidad'] ?? 1;
 
-// Validaciones básicas
-if (!$id_producto || $cantidad <= 0) {
-    echo json_encode(['success' => false, 'message' => 'Datos inválidos.']);
-    exit;
-}
+$stmt = $conn->prepare("SELECT cantidad FROM carrito WHERE id_usuario = ? AND id_producto = ?");
+$stmt->execute([$id_usuario, $id_producto]);
 
-// Verificar si ya existe un carrito para este usuario
-$stmt = $pdo->prepare("SELECT id FROM carrito WHERE id_usuario = ?");
-$stmt->execute([$id_usuario]);
-$carrito = $stmt->fetch();
-
-if ($carrito) {
-    $id_carrito = $carrito['id'];
+if ($stmt->rowCount() > 0) {
+    $update = $conn->prepare("UPDATE carrito SET cantidad = cantidad + ? WHERE id_usuario = ? AND id_producto = ?");
+    $update->execute([$cantidad, $id_usuario, $id_producto]);
 } else {
-    // Crear carrito si no existe
-    $stmt = $pdo->prepare("INSERT INTO carrito (id_usuario) VALUES (?)");
-    $stmt->execute([$id_usuario]);
-    $id_carrito = $pdo->lastInsertId();
+    $insert = $conn->prepare("INSERT INTO carrito (id_usuario, id_producto, cantidad) VALUES (?, ?, ?)");
+    $insert->execute([$id_usuario, $id_producto, $cantidad]);
 }
 
-// Verificar si el producto ya está en el carrito
-$stmt = $pdo->prepare("SELECT * FROM carrito_producto WHERE id_carrito = ? AND id_producto = ?");
-$stmt->execute([$id_carrito, $id_producto]);
-$existe = $stmt->fetch();
-
-if ($existe) {
-    // Si ya está, actualizar cantidad
-    $stmt = $pdo->prepare("
-        UPDATE carrito_producto 
-        SET cantidad = cantidad + ? 
-        WHERE id_carrito = ? AND id_producto = ?
-    ");
-    $stmt->execute([$cantidad, $id_carrito, $id_producto]);
-} else {
-    // Si no está, insertar
-    $stmt = $pdo->prepare("
-        INSERT INTO carrito_producto (id_carrito, id_producto, cantidad) 
-        VALUES (?, ?, ?)
-    ");
-    $stmt->execute([$id_carrito, $id_producto, $cantidad]);
-}
-
-// Obtener total actualizado
-$stmt = $pdo->prepare("
-    SELECT SUM(cantidad) as total 
-    FROM carrito_producto 
-    WHERE id_carrito = ?
-");
-$stmt->execute([$id_carrito]);
-$total = $stmt->fetchColumn();
-
-echo json_encode([
-    'success' => true,
-    'message' => 'Producto agregado correctamente.',
-    'cart_count' => $total
-]);
-?>
-pitito
+header("Location: carrito.php");
+exit();
