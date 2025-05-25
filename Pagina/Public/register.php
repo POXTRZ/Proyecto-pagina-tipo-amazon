@@ -125,6 +125,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <button type="submit">Registrar</button>
 </form>
 
+<!-- Botón de Volver al inicio -->
+<div style="margin-top: 20px;">
+  <a href="index.php">
+    <button type="button">Volver al inicio</button>
+  </a>
+</div>
+
+<!-- Botón de Iniciar Sesión -->
+<div style="margin-top: 20px;">
+  <a href="login.php">
+    <button type="button">Ya tienes una cuenta? Inicia Sesión Aquí</button>
+  </a>
+</div>
+
 <?php
 foreach ($success_msg as $msg) {
     echo "<script>swal('¡Éxito!', '".addslashes($msg)."', 'success');</script>";

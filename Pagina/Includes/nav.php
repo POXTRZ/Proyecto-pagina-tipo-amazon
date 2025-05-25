@@ -25,7 +25,7 @@ if (!isset($cats)) {
         </li>
         <li><a href="ofertas.php">Ofertas</a></li>
         <li><a href="nuevos.php">Nuevos</a></li>
-        <li><a href="contacto.php">Contacto</a></li>
+        <li><a href="https://wa.me/524642057146" target="_blank">Contacto</a></li>
     </ul>
     
     <div class="user-controls">
