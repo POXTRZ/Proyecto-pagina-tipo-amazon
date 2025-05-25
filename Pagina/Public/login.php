@@ -67,6 +67,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <button type="submit">Ingresar</button>
 </form>
 
+<!-- Botón para volver al inicio -->
+<div style="margin-top: 20px;">
+    <a href="index.php">
+        <button type="button">Volver al inicio</button>
+    </a>
+</div>
+
+<!-- Enlace a registro -->
+<div style="margin-top: 10px;">
+    <p>¿Aún no tienes cuenta? <a href="register.php">Regístrate aquí</a></p>
+</div>
+
 <?php
 foreach ($error_msg as $msg) {
     echo "<script>swal('Error', '".addslashes($msg)."', 'error');</script>";
