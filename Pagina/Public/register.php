@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../Config/db.php'; // Ruta al archivo de conexión
+include __DIR__ . '/../Config/db.php';
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -47,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_msg[] = "El teléfono solo puede contener números, espacios o guiones.";
     }
 
-    // Si no hay errores, insertar en la base de datos
     if (empty($error_msg)) {
         try {
             $stmt = $conn->prepare("SELECT id FROM usuarios WHERE nombre_usuario = ? OR correo = ?");
@@ -80,73 +79,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro – FitStore Pro</title>
+    <link rel="stylesheet" href="../Css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
+    <div class="particles"></div>
+    
+    <div class="form-container">
+        <form action="" method="post">
+            <h1>Registro</h1>
 
-<form action="" method="post">
-  <h1>Registro</h1>
+            <div class="input">
+                <label>Nombre de usuario<sup>*</sup></label>
+                <input type="text" name="nombre_usuario" required placeholder="Nombre de usuario"
+                       value="<?= htmlspecialchars($formData["nombre_usuario"]) ?>">
+            </div>
 
-  <div class="input">
-    <label>Nombre de usuario<sup>*</sup></label>
-    <input type="text" name="nombre_usuario" required placeholder="Nombre de usuario"
-           value="<?= htmlspecialchars($formData["nombre_usuario"]) ?>">
-  </div>
+            <div class="input">
+                <label>Email<sup>*</sup></label>
+                <input type="email" name="correo" required placeholder="Correo electrónico"
+                       value="<?= htmlspecialchars($formData["correo"]) ?>">
+            </div>
 
-  <div class="input">
-    <label>Email<sup>*</sup></label>
-    <input type="email" name="correo" required placeholder="Correo electrónico"
-           value="<?= htmlspecialchars($formData["correo"]) ?>">
-  </div>
+            <div class="input">
+                <label>Contraseña<sup>*</sup></label>
+                <input type="password" name="contrasena" required placeholder="Contraseña">
+            </div>
 
-  <div class="input">
-    <label>Contraseña<sup>*</sup></label>
-    <input type="password" name="contrasena" required placeholder="Contraseña">
-  </div>
+            <div class="input">
+                <label>Confirmar Contraseña<sup>*</sup></label>
+                <input type="password" name="confirmar" required placeholder="Repite la contraseña">
+            </div>
 
-  <div class="input">
-    <label>Confirmar Contraseña<sup>*</sup></label>
-    <input type="password" name="confirmar" required placeholder="Repite la contraseña">
-  </div>
+            <div class="input">
+                <label>Teléfono</label>
+                <input type="text" name="telefono" placeholder="Opcional"
+                       value="<?= htmlspecialchars($formData["telefono"]) ?>">
+            </div>
 
-  <div class="input">
-    <label>Teléfono</label>
-    <input type="text" name="telefono" placeholder="Opcional"
-           value="<?= htmlspecialchars($formData["telefono"]) ?>">
-  </div>
+            <div class="input">
+                <label>Dirección</label>
+                <input type="text" name="direccion" placeholder="Opcional"
+                       value="<?= htmlspecialchars($formData["direccion"]) ?>">
+            </div>
 
-  <div class="input">
-    <label>Dirección</label>
-    <input type="text" name="direccion" placeholder="Opcional"
-           value="<?= htmlspecialchars($formData["direccion"]) ?>">
-  </div>
+            <button type="submit">Registrar</button>
+        </form>
 
-  <button type="submit">Registrar</button>
-</form>
+        <div style="margin-top: 20px;">
+            <a href="index.php">
+                <button type="button">Volver al inicio</button>
+            </a>
+        </div>
 
-<!-- Botón de Volver al inicio -->
-<div style="margin-top: 20px;">
-  <a href="index.php">
-    <button type="button">Volver al inicio</button>
-  </a>
-</div>
+        <div style="margin-top: 20px;">
+            <a href="login.php">
+                <button type="button">Ya tienes una cuenta? Inicia Sesión Aquí</button>
+            </a>
+        </div>
+    </div>
 
-<!-- Botón de Iniciar Sesión -->
-<div style="margin-top: 20px;">
-  <a href="login.php">
-    <button type="button">Ya tienes una cuenta? Inicia Sesión Aquí</button>
-  </a>
-</div>
-
-<?php
-foreach ($success_msg as $msg) {
-    echo "<script>swal('¡Éxito!', '".addslashes($msg)."', 'success');</script>";
-}
-foreach ($error_msg as $msg) {
-    echo "<script>swal('Error', '".addslashes($msg)."', 'error');</script>";
-}
-?>
-
+    <?php
+    foreach ($success_msg as $msg) {
+        echo "<script>swal('¡Éxito!', '".addslashes($msg)."', 'success');</script>";
+    }
+    foreach ($error_msg as $msg) {
+        echo "<script>swal('Error', '".addslashes($msg)."', 'error');</script>";
+    }
+    ?>
 </body>
 </html>

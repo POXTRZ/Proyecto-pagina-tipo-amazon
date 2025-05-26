@@ -84,7 +84,7 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                 <?php foreach ($destacados as $p): ?>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../Images/<?=htmlspecialchars($p['imagen'])?>" alt="<?=htmlspecialchars($p['nombre'])?>">
+                        <img src="<?= isset($p['imagen']) && !empty($p['imagen']) ? '../Images/' . htmlspecialchars($p['imagen']) : '../Images/default-product.png' ?>" alt="<?=htmlspecialchars($p['nombre'])?>">
                         <?php if ($p['stock'] <= 5 && $p['stock'] > 0): ?>
                             <div class="product-badge stock-warning">¡Últimas unidades!</div>
                         <?php elseif ($p['stock'] == 0): ?>
@@ -124,7 +124,7 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                 <?php foreach ($ofertas as $o): ?>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../Images/<?=htmlspecialchars($o['imagen'])?>" alt="<?=htmlspecialchars($o['nombre'])?>">
+                        <img src="<?= isset($o['imagen']) && !empty($o['imagen']) ? '../Images/' . htmlspecialchars($o['imagen']) : '../Images/default-product.png' ?>" alt="<?=htmlspecialchars($o['nombre'])?>">
                         <div class="product-badge" style="background-color: var(--text-light);">¡Oferta!</div>
                         <?php if ($o['stock'] <= 5 && $o['stock'] > 0): ?>
                             <div class="product-badge stock-warning" style="left: 10px; right: auto;">¡Últimas unidades!</div>
