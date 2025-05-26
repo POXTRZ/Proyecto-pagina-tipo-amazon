@@ -24,6 +24,7 @@ $ofertas    = $conn->query("SELECT * FROM productos WHERE activo=1 ORDER BY prec
 $nuevos     = $conn->query("SELECT * FROM productos WHERE activo=1 ORDER BY fecha_agregado DESC LIMIT 6")->fetchAll();
 $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -70,7 +71,7 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                     <div class="category-icon"><?= $icons[$i % count($icons)] ?></div>
                     <h3 class="category-title"><?=htmlspecialchars($c['nombre'])?></h3>
                     <p>Productos de la más alta calidad para tu rendimiento</p>
-                    <a href="categoria.php?id=<?=$c['id']?>" class="cta-button" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Ver Productos</a>
+                    <a href="categorias.php?id=<?=$c['id']?>" class="cta-button" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Ver Productos</a>
                 </div>
                 <?php $i++; endforeach; ?>
             </div>
@@ -84,7 +85,7 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                 <?php foreach ($destacados as $p): ?>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../Images/<?=htmlspecialchars($p['imagen'])?>" alt="<?=htmlspecialchars($p['nombre'])?>">
+                        <img src="<?= isset($p['imagen']) && !empty($p['imagen']) ? '../Images/' . htmlspecialchars($p['imagen']) : '../Images/default-product.png' ?>" alt="<?=htmlspecialchars($p['nombre'])?>">
                         <?php if ($p['stock'] <= 5 && $p['stock'] > 0): ?>
                             <div class="product-badge stock-warning">¡Últimas unidades!</div>
                         <?php elseif ($p['stock'] == 0): ?>
@@ -124,7 +125,7 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                 <?php foreach ($ofertas as $o): ?>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="../Images/<?=htmlspecialchars($o['imagen'])?>" alt="<?=htmlspecialchars($o['nombre'])?>">
+                        <img src="<?= isset($o['imagen']) && !empty($o['imagen']) ? '../Images/' . htmlspecialchars($o['imagen']) : '../Images/default-product.png' ?>" alt="<?=htmlspecialchars($o['nombre'])?>">
                         <div class="product-badge" style="background-color: var(--text-light);">¡Oferta!</div>
                         <?php if ($o['stock'] <= 5 && $o['stock'] > 0): ?>
                             <div class="product-badge stock-warning" style="left: 10px; right: auto;">¡Últimas unidades!</div>
