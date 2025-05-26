@@ -7,14 +7,19 @@ require_once __DIR__ . '/../Includes/categoria.php';
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= htmlspecialchars($categoria['nombre']) ?> – FitStore Pro</title>
   <!-- 1) Importar estilos generales antes de los específicos -->
   <link rel="stylesheet" href="../Css/index.css">
   <link rel="stylesheet" href="../Css/categorias.css">
-  <link rel="stylesheet" href="../Css/nav.css">
+  <!-- QUITAR esta línea porque nav.php ya incluye nav.css -->
+  <!-- <link rel="stylesheet" href="../Css/nav.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
+  <!-- AGREGAR la clase "header" aquí -->
+  <header class="header">
     <?php include __DIR__ . '/../Includes/nav.php'; ?>
   </header>
 
@@ -24,7 +29,7 @@ require_once __DIR__ . '/../Includes/categoria.php';
     <p>Explora nuestra selección de <?= strtolower(htmlspecialchars($categoria['nombre'])) ?></p>
   </section>
 
-  <!-- Productos filtrados -->
+  <!-- Resto del contenido igual... -->
   <section class="category-products-section">
     <?php if (count($productos)): ?>
       <!-- 2) Controles de filtro y orden -->
@@ -63,7 +68,7 @@ require_once __DIR__ . '/../Includes/categoria.php';
             <!-- enlace a detalle -->
            <a href="producto.php?id=<?= $p['id'] ?>" class="product-link">
               <div class="product-image">
-                <img src="<?= htmlspecialchars($p['imagen_url'] ?? '../Imgs/default-product.png') ?>"
+                <img src="<?= isset($p['imagen']) && !empty($p['imagen']) ? '../Images/' . htmlspecialchars($p['imagen']) : '../Images/default-product.png' ?>"
                      alt="<?= htmlspecialchars($p['nombre']) ?>">
               </div>
               <?php if ($p['stock'] == 0): ?>
@@ -77,14 +82,27 @@ require_once __DIR__ . '/../Includes/categoria.php';
               </div>
             </a>
             <!-- formulario agregar al carrito -->
-            <form method="post" action="agregar_carrito.php">
-              <input type="hidden" name="producto_id" value="<?= $p['id'] ?>">
-              <button type="submit"
-                      class="add-to-cart <?= $p['stock']==0?'btn-disabled':''?>"
-                      <?= $p['stock']==0?'disabled':''?>>
-                Agregar al carrito
+            <?php if ($p['stock'] > 0): ?>
+              <?php if ($logged): ?>
+                <form method="post" action="agregar_carrito.php">
+                  <input type="hidden" name="producto_id" value="<?= $p['id'] ?>">
+                  <button type="submit" class="add-to-cart">
+                    <i class="fas fa-cart-plus"></i>
+                    Agregar al Carrito
+                  </button>
+                </form>
+              <?php else: ?>
+                <a href="login.php" class="add-to-cart">
+                  <i class="fas fa-cart-plus"></i>
+                  Agregar al Carrito
+                </a>
+              <?php endif; ?>
+            <?php else: ?>
+              <button class="add-to-cart btn-disabled" disabled>
+                <i class="fas fa-times"></i>
+                Producto Agotado
               </button>
-            </form>
+            <?php endif; ?>
           </div>
         <?php endforeach; ?>
       </div>

@@ -24,6 +24,7 @@ $ofertas    = $conn->query("SELECT * FROM productos WHERE activo=1 ORDER BY prec
 $nuevos     = $conn->query("SELECT * FROM productos WHERE activo=1 ORDER BY fecha_agregado DESC LIMIT 6")->fetchAll();
 $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -70,7 +71,7 @@ $cats       = $conn->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll
                     <div class="category-icon"><?= $icons[$i % count($icons)] ?></div>
                     <h3 class="category-title"><?=htmlspecialchars($c['nombre'])?></h3>
                     <p>Productos de la más alta calidad para tu rendimiento</p>
-                    <a href="categoria.php?id=<?=$c['id']?>" class="cta-button" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Ver Productos</a>
+                    <a href="categorias.php?id=<?=$c['id']?>" class="cta-button" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Ver Productos</a>
                 </div>
                 <?php $i++; endforeach; ?>
             </div>
